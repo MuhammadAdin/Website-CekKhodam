@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cek Khodam Berdasarkan Nama</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Creepster&display=swap"); /* Import font menyeramkan */
+
+      body {
+        font-family: Arial, sans-serif;
+        background-image: url("ghost.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .container {
+        background-color: rgba(
+          0,
+          0,
+          0,
+          0.8
+        ); /* Transparansi dengan background hitam */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.6); /* Bayangan merah */
+        text-align: center;
+        max-width: 400px;
+        width: 100%;
+      }
+      h1 {
+        color: #ff0000; /* Warna merah untuk judul */
+        margin-bottom: 20px;
+        font-family: "Creepster", cursive; /* Font menyeramkan */
+      }
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+      input[type="text"] {
+        width: 95%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #333;
+        color: #fff;
+      }
+      button {
+        background-color: #ff0000; /* Warna merah untuk tombol */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #cc0000;
+      }
+      .result {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #ff0000; /* Warna merah untuk hasil */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Cek Khodam</h1>
+      <form id="khodamForm">
+        <label for="nama">Masukkan Nama:</label>
+        <input type="text" id="nama" name="nama" required />
+        <button type="submit">Cek Khodam</button>
+      </form>
+      <div class="result" id="result"></div>
+    </div>
+
+    <script>
+      const khodamList = [
+        "Singa",
+        "Harimau",
+        "Gajah",
+        "Elang",
+        "Serigala",
+        "Kucing",
+        "Burung Hantu",
+        "Buaya",
+        "Naga",
+        "Kuda",
+        "Macan",
+        "Kambing",
+        "Rusa",
+        "Kelinci",
+        "Anjing",
+        "Nyi Roro Kidul",
+        "Dewi Sri",
+        "Sang Hyang Tunggal",
+        "Dewi Rengganis",
+        "Kanjeng Ratu",
+        "Ki Ageng Selo",
+        "Raden Wijaya",
+        "Dewi Lanjar",
+        "Sultan Agung",
+        "Nyi Blorong",
+        "Ratu Pantai Selatan",
+        "Ki Sabdo Palon",
+        "Ki Semar",
+        "Roro Jonggrang",
+        "Ki Sapujagad",
+        "Dewi Sekartaji",
+        "Ki Tumenggung",
+        "Dewi Kwan Im",
+        "Ki Suro Agung",
+        "Dewi Parwati",
+        "Ki Juru Mertani",
+        "Raden Ayu",
+        "Ki Tambakbaya",
+        "Nyai Gandasari",
+        "Ki Kebo Kanigara",
+        "Nyai Panjangmas",
+        "Ki Jaga Raksa",
+        "Dewi Saraswati",
+        "Ki Pati Jati",
+        "Nyai Blondo",
+        "Ki Ageng Kutu",
+        "Dewi Uma",
+        "Ki Ageng Pengging",
+        "Nyai Panguripan",
+        "Ki Gede Tapa",
+        "Dewi Ratih",
+        "Ki Wasesa",
+        "Nyai Loro Kidul",
+        "Ki Pamungkas",
+        "Dewi Kunti",
+        "Ki Wirasakti",
+        "Nyai Loroblonyo",
+        "Ki Ageng Surya",
+        "Dewi Durga",
+        "Ki Ageng Mangir",
+        "Nyai Endang",
+        "Ki Gede Sebayu",
+        "Dewi Sri Widowati",
+        "Ki Joko Linglung",
+        "Nyai Subang Larang",
+        "Ki Gede Pamanahan",
+        "Dewi Windu",
+        "Ki Pandan Alas",
+        "Nyai Tumenggung",
+        "Ki Lurah Semar",
+        "Dewi Wulan",
+        "Ki Gede Penatus",
+        "Nyai Blorong",
+        "Ki Wiro Sableng",
+        "Dewi Laksmi",
+        "Ki Tunggul Ametung",
+        "Nyai Kembang",
+        "Ki Ageng Karang",
+        "Dewi Sri Asih",
+        "Ki Cakrabuwana",
+        "Nyai Bangsa",
+        "Ki Gede Menak",
+        "Dewi Nawangwulan",
+        "Ki Gede Metaram",
+        "Nyai Tunjungbiru",
+        "Ki Ageng Suryomentaram",
+        "Dewi Ratna Dumilah",
+        "Ki Panji Galuh",
+        "Nyai Gandrung",
+        "Ki Gede Sebayu",
+        "Dewi Sinta",
+        "Ki Gede Tapa",
+        "Nyai Lawang",
+        "Ki Ageng Giring",
+        "Dewi Anjani",
+        "Ki Jayabaya",
+        "Nyai Sangkala",
+        "Ki Gede Pati",
+        "Dewi Anggraeni",
+        "Ki Purbaya",
+        "Nyai Endang Darma",
+        "Ki Ageng Kedu",
+        "Dewi Kunthi",
+        "Ki Surakarsa",
+        "Nyai Randu Kuning",
+        "Ki Gede Anom",
+        "Dewi Subadra",
+        "Ki Juru Demak",
+        "Nyai Dewi",
+        "Ki Ageng Selo",
+        "Dewi Tari",
+        "Ki Ageng Mangir",
+        "Nyai Puspita",
+        "Ki Kebo Kanigara",
+        "Ki Joko Bodo",
+      ];
+
+      document
+        .getElementById("khodamForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const nama = document.getElementById("nama").value;
+          const randomKhodam =
+            khodamList[Math.floor(Math.random() * khodamList.length)];
+
+          const result = `Nama: ${nama} memiliki khodam: ${randomKhodam}`;
+          document.getElementById("result").innerText = result;
+        });
+    </script>
+  </body>
+</html>
